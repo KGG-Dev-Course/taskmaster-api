@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.DTOs.Interface;
 using taskmaster_api.Data.Entities;
@@ -10,8 +11,9 @@ namespace taskmaster_api.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly ILogger<TaskService> _logger;
 
-        public TaskService(ITaskRepository taskRepository)
+        public TaskService(ITaskRepository taskRepository, ILogger<TaskService> logger)
         {
             _taskRepository = taskRepository;
         }
@@ -23,12 +25,15 @@ namespace taskmaster_api.Services
                 var task = _taskRepository.GetTaskById(id);
                 if (task == null)
                 {
+                    _logger.LogInformation("Task not found");
                     return CoreActionResult<TaskDto>.Failure("Task not found", "NotFound");
                 }
+
                 return CoreActionResult<TaskDto>.Success(task.ToDto());
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<TaskDto>.Exception(ex);
             }
         }
@@ -42,6 +47,7 @@ namespace taskmaster_api.Services
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<List<TaskDto>>.Exception(ex);
             }
         }
@@ -56,6 +62,7 @@ namespace taskmaster_api.Services
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<TaskDto>.Exception(ex);
             }
         }
@@ -68,6 +75,7 @@ namespace taskmaster_api.Services
                 var existingTask = _taskRepository.GetTaskById(id);
                 if (existingTask == null)
                 {
+                    _logger.LogInformation("Task not found");
                     return CoreActionResult<TaskDto>.Failure("Task not found", "NotFound");
                 }
 
@@ -76,6 +84,7 @@ namespace taskmaster_api.Services
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<TaskDto>.Exception(ex);
             }
         }
@@ -87,12 +96,14 @@ namespace taskmaster_api.Services
                 var deletedTaskId = _taskRepository.DeleteTask(id);
                 if (deletedTaskId == 0)
                 {
+                    _logger.LogInformation("Task not found");
                     return CoreActionResult.Ignore("Task not found", "NotFound");
                 }
                 return CoreActionResult.Success();
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult.Exception(ex);
             }
         }
