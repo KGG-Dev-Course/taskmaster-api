@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using taskmaster_api.Data.Models;
+using Microsoft.Extensions.Logging;
 
 namespace taskmaster_api.Services
 {
@@ -15,12 +16,14 @@ namespace taskmaster_api.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ILogger<AuthService> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public ICoreActionResult<LoginResponseDto> Login(LoginDto loginDto)
@@ -45,6 +48,8 @@ namespace taskmaster_api.Services
 
                     var token = GetToken(authClaims);
 
+                    _logger.LogInformation("Login Successful.");
+
                     return CoreActionResult<LoginResponseDto>.Success(new LoginResponseDto
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -52,10 +57,12 @@ namespace taskmaster_api.Services
                     });
                 }
 
+                _logger.LogInformation("Login Failed.");
                 return CoreActionResult<LoginResponseDto>.Failure("Login Failed.");
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<LoginResponseDto>.Exception(ex);
             }
         }
@@ -67,6 +74,7 @@ namespace taskmaster_api.Services
                 var userExists = _userManager.FindByNameAsync(registerDto.Username).Result;
                 if (userExists != null)
                 {
+                    _logger.LogInformation("User already exists!");
                     return CoreActionResult<RegisterDto>.Failure("User already exists!");
                 }
 
@@ -80,13 +88,17 @@ namespace taskmaster_api.Services
 
                 if (!result.Succeeded)
                 {
+                    _logger.LogInformation("User creation failed! Please check user details and try again.");
                     return CoreActionResult<RegisterDto>.Failure("User creation failed! Please check user details and try again.");
                 }
+
+                _logger.LogInformation("Register Successful.");
 
                 return CoreActionResult<RegisterDto>.Success(registerDto);
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<RegisterDto>.Exception(ex);
             }
         }
@@ -98,6 +110,7 @@ namespace taskmaster_api.Services
                 var userExists = _userManager.FindByNameAsync(registerDto.Username).Result;
                 if (userExists != null)
                 {
+                    _logger.LogInformation("User already exists!");
                     return CoreActionResult<RegisterDto>.Failure("User already exists!");
                 }
 
@@ -111,6 +124,7 @@ namespace taskmaster_api.Services
                 var result = _userManager.CreateAsync(user, registerDto.Password).Result;
                 if (!result.Succeeded)
                 {
+                    _logger.LogInformation("User creation failed! Please check user details and try again.");
                     return CoreActionResult<RegisterDto>.Failure("User creation failed! Please check user details and try again.");
                 }
 
@@ -134,10 +148,13 @@ namespace taskmaster_api.Services
                     var userIdentityResult = _userManager.AddToRoleAsync(user, UserRoles.User).Result;
                 }
 
+                _logger.LogInformation("Admin Register Successful.");
+
                 return CoreActionResult<RegisterDto>.Success(registerDto);
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return CoreActionResult<RegisterDto>.Exception(ex);
             }
         }
