@@ -7,11 +7,11 @@ using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Services
 {
-    public class TaskAppService : ITaskAppService
+    public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
 
-        public TaskAppService(ITaskRepository taskRepository)
+        public TaskService(ITaskRepository taskRepository)
         {
             _taskRepository = taskRepository;
         }

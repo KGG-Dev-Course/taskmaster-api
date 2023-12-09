@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using taskmaster_api.Data.DTOs;
-using taskmaster_api.Data.DTOs.Interface;
-using taskmaster_api.Data.Entities;
-using taskmaster_api.Data.Repositories.Interface;
-using taskmaster_api.Services;
+using taskmaster_api.Data.Models;
 using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Controllers
@@ -14,35 +10,37 @@ namespace taskmaster_api.Controllers
     [ApiController]
     public class TaskController : ApplicationControllerBase
     {
-        private readonly ITaskAppService _taskAppService;
+        private readonly ITaskService _taskService;
 
-        public TaskController(ITaskAppService taskAppService)
+        public TaskController(ITaskService taskService)
         {
-            _taskAppService = taskAppService;
+            _taskService = taskService;
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetTask(int id)
         {
-            return ToHttpResult<TaskDto>(_taskAppService.GetTaskById(id));
+            return ToHttpResult<TaskDto>(_taskService.GetTaskById(id));
         }
 
         [HttpPost]
         public IActionResult CreateTask(TaskDto taskDto)
         {
-            return ToHttpResult<TaskDto>(_taskAppService.CreateTask(taskDto));
+            return ToHttpResult<TaskDto>(_taskService.CreateTask(taskDto));
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult UpdateTask(int id, TaskDto taskDto)
         {
-            return ToHttpResult<TaskDto>(_taskAppService.UpdateTask(id, taskDto));
+            return ToHttpResult<TaskDto>(_taskService.UpdateTask(id, taskDto));
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteTask(int id)
         {
-            return ToHttpResult(_taskAppService.DeleteTask(id));
+            return ToHttpResult(_taskService.DeleteTask(id));
         }
     }
 }

@@ -4,7 +4,7 @@ using taskmaster_api.Data.Entities;
 
 namespace taskmaster_api.Services.Interface
 {
-    public interface ITaskAppService
+    public interface ITaskService
     {
         ICoreActionResult<TaskDto> GetTaskById(int id);
         ICoreActionResult<List<TaskDto>> GetAllTasks();
