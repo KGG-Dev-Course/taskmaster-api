@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using taskmaster_api.Data.DTOs;
-using taskmaster_api.Data.Models;
 using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Controllers
@@ -18,7 +16,6 @@ namespace taskmaster_api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public IActionResult GetTask(int id)
         {
             return ToHttpResult<TaskDto>(_taskService.GetTaskById(id));
@@ -31,7 +28,6 @@ namespace taskmaster_api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult UpdateTask(int id, TaskDto taskDto)
         {
             return ToHttpResult<TaskDto>(_taskService.UpdateTask(id, taskDto));

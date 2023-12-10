@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using taskmaster_api.Data.DTOs;
+﻿using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.DTOs.Interface;
-using taskmaster_api.Data.Entities;
 using taskmaster_api.Data.Repositories.Interface;
 using taskmaster_api.Services.Interface;
 
@@ -16,6 +13,7 @@ namespace taskmaster_api.Services
         public TaskService(ITaskRepository taskRepository, ILogger<TaskService> logger)
         {
             _taskRepository = taskRepository;
+            _logger = logger;
         }
 
         public ICoreActionResult<TaskDto> GetTaskById(int id)
