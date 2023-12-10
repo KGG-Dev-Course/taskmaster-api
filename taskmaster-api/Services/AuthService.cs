@@ -7,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using taskmaster_api.Data.Models;
-using Microsoft.Extensions.Logging;
 
 namespace taskmaster_api.Services
 {

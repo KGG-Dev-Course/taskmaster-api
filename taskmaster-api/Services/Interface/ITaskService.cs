@@ -8,8 +8,8 @@ namespace taskmaster_api.Services.Interface
     {
         ICoreActionResult<TaskDto> GetTaskById(int id);
         ICoreActionResult<List<TaskDto>> GetAllTasks();
-        ICoreActionResult<TaskDto> CreateTask(TaskDto task);
-        ICoreActionResult<TaskDto> UpdateTask(int id, TaskDto task);
+        ICoreActionResult<TaskDto> CreateTask(TaskDto taskDto);
+        ICoreActionResult<TaskDto> UpdateTask(int id, TaskDto taskDto);
         ICoreActionResult DeleteTask(int id);
     }
 }
