@@ -17,6 +17,8 @@ namespace taskmaster_api.Data.Entities
 
         public DateTime DueDate { get; set; }
 
+        public string Status { get; set; }
+
         public TaskDto ToDto()
         {
             return EntityHelpers.ToDto<TaskEntity, TaskDto>(this);

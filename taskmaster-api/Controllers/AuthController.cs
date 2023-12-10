@@ -7,6 +7,7 @@ namespace taskmaster_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ApplicationControllerBase
     {
         private readonly IAuthService _authService;
@@ -17,21 +18,18 @@ namespace taskmaster_api.Controllers
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         public IActionResult Login(LoginDto loginDto)
         {
             return ToHttpResult<LoginResponseDto>(_authService.Login(loginDto));
         }
 
         [HttpPost("register")]
-        [AllowAnonymous]
         public IActionResult Register(RegisterDto registerDto)
         {
             return ToHttpResult<RegisterDto>(_authService.Register(registerDto));
         }
 
         [HttpPost("register-admin")]
-        [AllowAnonymous]
         public IActionResult RegisterAdmin(RegisterDto registerDto)
         {
             return ToHttpResult<RegisterDto>(_authService.RegisterAdmin(registerDto));
