@@ -2,6 +2,7 @@
 {
     public static class TaskStatus
     {
+        public const string Pending = "Pending";
         public const string Open = "Open";
         public const string InProgress = "InProgress";
         public const string Completed = "Complete";
