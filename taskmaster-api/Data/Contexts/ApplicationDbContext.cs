@@ -16,5 +16,7 @@ namespace taskmaster_api.Data.Contexts
         public virtual DbSet<AttachmentEntity> Attachments { get; set; }
         public virtual DbSet<TagEntity> Tags { get; set; }
         public virtual DbSet<ActivityLogEntity> ActivityLogs { get; set; }
+        public virtual DbSet<NotificationEntity> Notifications { get; set; }
+        public virtual DbSet<SettingEntity> Settings { get; set; }
     }
 }
