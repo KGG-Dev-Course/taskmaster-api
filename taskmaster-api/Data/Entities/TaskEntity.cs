@@ -20,11 +20,14 @@ namespace taskmaster_api.Data.Entities
 
         public DateTime? DueDate { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Status { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
 
+        [Required]
         public DateTime UpdatedAt { get; set; }
 
         public TaskDto ToDto()

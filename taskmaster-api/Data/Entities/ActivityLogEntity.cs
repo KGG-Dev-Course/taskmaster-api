@@ -21,6 +21,7 @@ namespace taskmaster_api.Data.Entities
         [StringLength(100)]
         public string Action { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
 
         public ActivityLogDto ToDto()

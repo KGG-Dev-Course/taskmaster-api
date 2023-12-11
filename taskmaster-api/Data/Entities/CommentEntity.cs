@@ -24,8 +24,10 @@ namespace taskmaster_api.Data.Entities
         [Required]
         public string Content { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
 
+        [Required]
         public DateTime UpdatedAt { get; set; }
 
         public CommentDto ToDto()

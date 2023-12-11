@@ -23,6 +23,7 @@ namespace taskmaster_api.Data.Entities
         [Required]
         public bool IsRead { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
 
         public NotificationDto ToDto()

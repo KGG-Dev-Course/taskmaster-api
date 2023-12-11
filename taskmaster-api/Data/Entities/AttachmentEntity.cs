@@ -25,8 +25,10 @@ namespace taskmaster_api.Data.Entities
         [StringLength(255)]
         public string FileName { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
 
+        [Required]
         public DateTime UpdatedAt { get; set; }
 
         public AttachmentDto ToDto()
