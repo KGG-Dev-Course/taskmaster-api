@@ -1,13 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.Entities.Interface;
 using taskmaster_api.Utilities;
-using System.Runtime.Serialization;
 
 namespace taskmaster_api.Data.Entities
 {

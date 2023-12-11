@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.Models;
+using taskmaster_api.Services;
 using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Controllers
@@ -16,6 +17,12 @@ namespace taskmaster_api.Controllers
         public TaskController(ITaskService taskService)
         {
             _taskService = taskService;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTasks()
+        {
+            return ToHttpResult<List<TaskDto>>(_taskService.GetAllTasks());
         }
 
         [HttpGet("{id}")]

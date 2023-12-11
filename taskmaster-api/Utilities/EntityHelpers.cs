@@ -22,6 +22,27 @@
 
             return destination;
         }
+
+        public static TDestination ToEntity<TSource, TDestination>(TSource source)
+        where TDestination : new()
+        {
+            var destination = new TDestination();
+            var sourceProperties = typeof(TSource).GetProperties();
+            var destinationProperties = typeof(TDestination).GetProperties();
+
+            foreach (var sourceProp in sourceProperties)
+            {
+                var destinationProp = destinationProperties.FirstOrDefault(x => x.Name == sourceProp.Name);
+
+                if (destinationProp != null && destinationProp.CanWrite)
+                {
+                    var value = sourceProp.GetValue(source);
+                    destinationProp.SetValue(destination, value);
+                }
+            }
+
+            return destination;
+        }
     }
 
 }
