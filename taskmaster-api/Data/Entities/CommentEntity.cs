@@ -1,28 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.Entities.Interface;
 using taskmaster_api.Utilities;
+using Microsoft.AspNetCore.Identity;
 
 namespace taskmaster_api.Data.Entities
 {
-    public class TaskEntity : IEntity<TaskDto>
+    public class CommentEntity : IEntity<CommentDto>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
-
-        public string? Description { get; set; }
-
-        public DateTime? DueDate { get; set; }
+        public string UserId { get; set; }
+        public IdentityUser User { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Status { get; set; }
+        public int TaskId { get; set; }
+        public TaskEntity Task { get; set; }
+
+        [Required]
+        public string Content { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }
@@ -30,9 +30,9 @@ namespace taskmaster_api.Data.Entities
         [Required]
         public DateTime UpdatedAt { get; set; }
 
-        public TaskDto ToDto()
+        public CommentDto ToDto()
         {
-            return EntityHelpers.ToDto<TaskEntity, TaskDto>(this);
+            return EntityHelpers.ToDto<CommentEntity, CommentDto>(this);
         }
     }
 }

@@ -4,19 +4,17 @@ using taskmaster_api.Utilities;
 
 namespace taskmaster_api.Data.DTOs
 {
-    public class TaskDto : IDto<TaskEntity>
+    public class AttachmentDto : IDto<AttachmentEntity>
     {
         public int? Id { get; set; }
-        public string Title { get; set; }
-        public string? Description { get; set; }
-        public DateTime? DueDate { get; set; }
-        public string Status { get; set; }
+        public string UserId { get; set; }
+        public int TaskId { get; set; }
+        public string FileName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public TaskDto()
+        public AttachmentDto()
         {
-            Status = Models.TaskStatus.Pending;
             if (Id.HasValue)
             {
                 UpdatedAt = DateTime.UtcNow;
@@ -28,9 +26,9 @@ namespace taskmaster_api.Data.DTOs
             }
         }
 
-        public TaskEntity ToEntity()
+        public AttachmentEntity ToEntity()
         {
-            return EntityHelpers.ToEntity<TaskDto, TaskEntity>(this);
+            return EntityHelpers.ToEntity<AttachmentDto, AttachmentEntity>(this);
         }
     }
 }
