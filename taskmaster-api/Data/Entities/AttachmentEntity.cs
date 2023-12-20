@@ -18,8 +18,8 @@ namespace taskmaster_api.Data.Entities
         public IdentityUser User { get; set; }
 
         [Required]
-        public int TaskId { get; set; }
-        public TaskEntity Task { get; set; }
+        public int TicketId { get; set; }
+        public TicketEntity Ticket { get; set; }
 
         [Required]
         [StringLength(255)]

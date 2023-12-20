@@ -4,7 +4,7 @@ using taskmaster_api.Utilities;
 
 namespace taskmaster_api.Data.DTOs
 {
-    public class TaskDto : IDto<TaskEntity>
+    public class TicketDto : IDto<TicketEntity>
     {
         public int? Id { get; set; }
         public string Title { get; set; }
@@ -14,9 +14,9 @@ namespace taskmaster_api.Data.DTOs
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public TaskDto()
+        public TicketDto()
         {
-            Status = Models.TaskStatus.Pending;
+            Status = Models.TicketStatus.Pending;
             if (Id.HasValue)
             {
                 UpdatedAt = DateTime.UtcNow;
@@ -28,9 +28,9 @@ namespace taskmaster_api.Data.DTOs
             }
         }
 
-        public TaskEntity ToEntity()
+        public TicketEntity ToEntity()
         {
-            return EntityHelpers.ToEntity<TaskDto, TaskEntity>(this);
+            return EntityHelpers.ToEntity<TicketDto, TicketEntity>(this);
         }
     }
 }

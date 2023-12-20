@@ -8,9 +8,9 @@ namespace taskmaster_api.Services
     public class UserService : IUserService
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<TaskService> _logger;
+        private readonly ILogger<TicketService> _logger;
 
-        public UserService(UserManager<IdentityUser> userManager, ILogger<TaskService> logger)
+        public UserService(UserManager<IdentityUser> userManager, ILogger<TicketService> logger)
         {
             _userManager = userManager;
             _logger = logger;
