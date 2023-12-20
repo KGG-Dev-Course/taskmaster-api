@@ -263,7 +263,7 @@ namespace taskmaster_api.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("TaskId")
+                    b.Property<int>("TicketId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -275,7 +275,7 @@ namespace taskmaster_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("TicketId");
 
                     b.HasIndex("UserId");
 
@@ -297,7 +297,7 @@ namespace taskmaster_api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TaskId")
+                    b.Property<int>("TicketId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -309,7 +309,7 @@ namespace taskmaster_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("TicketId");
 
                     b.HasIndex("UserId");
 
@@ -388,7 +388,7 @@ namespace taskmaster_api.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("taskmaster_api.Data.Entities.TaskEntity", b =>
+            modelBuilder.Entity("taskmaster_api.Data.Entities.TicketEntity", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -419,7 +419,7 @@ namespace taskmaster_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -486,9 +486,9 @@ namespace taskmaster_api.Migrations
 
             modelBuilder.Entity("taskmaster_api.Data.Entities.AttachmentEntity", b =>
                 {
-                    b.HasOne("taskmaster_api.Data.Entities.TaskEntity", "Task")
+                    b.HasOne("taskmaster_api.Data.Entities.TicketEntity", "Ticket")
                         .WithMany()
-                        .HasForeignKey("TaskId")
+                        .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -498,16 +498,16 @@ namespace taskmaster_api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Task");
+                    b.Navigation("Ticket");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("taskmaster_api.Data.Entities.CommentEntity", b =>
                 {
-                    b.HasOne("taskmaster_api.Data.Entities.TaskEntity", "Task")
+                    b.HasOne("taskmaster_api.Data.Entities.TicketEntity", "Ticket")
                         .WithMany()
-                        .HasForeignKey("TaskId")
+                        .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -517,7 +517,7 @@ namespace taskmaster_api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Task");
+                    b.Navigation("Ticket");
 
                     b.Navigation("User");
                 });

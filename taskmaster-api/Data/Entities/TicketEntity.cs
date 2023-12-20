@@ -7,7 +7,7 @@ using taskmaster_api.Utilities;
 
 namespace taskmaster_api.Data.Entities
 {
-    public class TaskEntity : IEntity<TaskDto>
+    public class TicketEntity : IEntity<TicketDto>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -30,9 +30,9 @@ namespace taskmaster_api.Data.Entities
         [Required]
         public DateTime UpdatedAt { get; set; }
 
-        public TaskDto ToDto()
+        public TicketDto ToDto()
         {
-            return EntityHelpers.ToDto<TaskEntity, TaskDto>(this);
+            return EntityHelpers.ToDto<TicketEntity, TicketDto>(this);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace taskmaster_api.Data.Models
 {
-    public static class TaskStatus
+    public static class TicketStatus
     {
         public const string Pending = "Pending";
         public const string Open = "Open";
