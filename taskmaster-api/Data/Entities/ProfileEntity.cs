@@ -31,7 +31,7 @@ namespace taskmaster_api.Data.Entities
         public string? Gender { get; set; }
 
         [StringLength(20)]
-        public string? DateOfBirth { get; set; }
+        public string? Birthday { get; set; }
 
         [StringLength(20)]
         public string? PhoneNumber { get; set; }

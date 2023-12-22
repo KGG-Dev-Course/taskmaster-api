@@ -12,7 +12,7 @@ namespace taskmaster_api.Data.DTOs
         public string LastName { get; set; }
         public string? AboutMe { get; set; }
         public string? Gender { get; set; }
-        public string? DateOfBirth { get; set; }
+        public string? Birthday { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Photo { get; set; }
         public DateTime CreatedAt { get; set; }
