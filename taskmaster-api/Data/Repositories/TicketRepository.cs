@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Text;
 using taskmaster_api.Data.Contexts;
 using taskmaster_api.Data.Entities;
 using taskmaster_api.Data.Repositories.Interface;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace taskmaster_api.Data.Repositories
 {

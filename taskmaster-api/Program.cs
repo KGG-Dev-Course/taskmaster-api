@@ -1,16 +1,14 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Filters;
+using System.Text;
 using taskmaster_api.Data.Contexts;
 using taskmaster_api.Data.Repositories;
 using taskmaster_api.Data.Repositories.Interface;
-using taskmaster_api.Services.Interface;
 using taskmaster_api.Services;
-using Microsoft.AspNetCore.Identity;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
+using taskmaster_api.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
