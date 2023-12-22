@@ -12,7 +12,7 @@ using taskmaster_api.Data.Contexts;
 namespace taskmaster_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231222081613_InitialCreate")]
+    [Migration("20231222113127_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -359,12 +359,12 @@ namespace taskmaster_api.Migrations
                     b.Property<string>("AboutMe")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DateOfBirth")
+                    b.Property<string>("Birthday")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
