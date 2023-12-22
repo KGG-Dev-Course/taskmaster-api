@@ -34,6 +34,8 @@ namespace taskmaster_api.Services
                 {
                     var userRoles = _userManager.GetRolesAsync(user).Result;
 
+                    bool isAdmin = userRoles.Any(role => role == "Admin");
+
                     var authClaims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
@@ -53,6 +55,7 @@ namespace taskmaster_api.Services
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
                         Expiration = token.ValidTo,
+                        isAdmin = isAdmin
                     });
                 }
 
@@ -89,6 +92,16 @@ namespace taskmaster_api.Services
                 {
                     _logger.LogInformation("User creation failed! Please check user details and try again.");
                     return CoreActionResult<RegisterDto>.Failure("User creation failed! Please check user details and try again.");
+                }
+
+                if (!_roleManager.RoleExistsAsync(UserRoles.User).Result)
+                {
+                    var userIdentityResult = _roleManager.CreateAsync(new IdentityRole(UserRoles.User)).Result;
+                }
+
+                if (_roleManager.RoleExistsAsync(UserRoles.User).Result)
+                {
+                    var userIdentityResult = _userManager.AddToRoleAsync(user, UserRoles.User).Result;
                 }
 
                 _logger.LogInformation("Register Successful.");
@@ -142,7 +155,7 @@ namespace taskmaster_api.Services
                     var adminIdentityResult = _userManager.AddToRoleAsync(user, UserRoles.Admin).Result;
                 }
 
-                if (_roleManager.RoleExistsAsync(UserRoles.Admin).Result)
+                if (_roleManager.RoleExistsAsync(UserRoles.User).Result)
                 {
                     var userIdentityResult = _userManager.AddToRoleAsync(user, UserRoles.User).Result;
                 }

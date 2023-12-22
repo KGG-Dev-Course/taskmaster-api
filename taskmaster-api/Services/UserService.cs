@@ -46,11 +46,14 @@ namespace taskmaster_api.Services
                 List<UserDto> userDtoList = new List<UserDto>();
                 foreach (var user in _userManager.Users)
                 {
+                    var userRoles = _userManager.GetRolesAsync(user).Result;
+
                     userDtoList.Add(new UserDto
                     {
                         Id = user.Id,
                         UserName = user.UserName,
-                        Email = user.Email
+                        Email = user.Email,
+                        Roles = userRoles.ToList(),
                     });
                 }
 
