@@ -12,7 +12,7 @@ using taskmaster_api.Data.Contexts;
 namespace taskmaster_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231220055004_InitialCreate")]
+    [Migration("20231222081613_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -348,6 +348,60 @@ namespace taskmaster_api.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("taskmaster_api.Data.Entities.ProfileEntity", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("AboutMe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DateOfBirth")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Gender")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Photo")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Profiles");
+                });
+
             modelBuilder.Entity("taskmaster_api.Data.Entities.SettingEntity", b =>
                 {
                     b.Property<int?>("Id")
@@ -526,6 +580,17 @@ namespace taskmaster_api.Migrations
                 });
 
             modelBuilder.Entity("taskmaster_api.Data.Entities.NotificationEntity", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("taskmaster_api.Data.Entities.ProfileEntity", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
