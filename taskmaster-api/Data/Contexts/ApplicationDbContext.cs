@@ -11,6 +11,7 @@ namespace taskmaster_api.Data.Contexts
         {
         }
 
+        public virtual DbSet<ProfileEntity> Profiles { get; set; }
         public virtual DbSet<TicketEntity> Tickets { get; set; }
         public virtual DbSet<CommentEntity> Comments { get; set; }
         public virtual DbSet<AttachmentEntity> Attachments { get; set; }
