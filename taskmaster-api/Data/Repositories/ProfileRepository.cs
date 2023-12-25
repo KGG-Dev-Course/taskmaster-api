@@ -54,5 +54,10 @@ namespace taskmaster_api.Data.Repositories
             }
             return -1;
         }
+
+        public ProfileEntity GetProfileByUserId(string userId)
+        {
+            return _context.Profiles.FirstOrDefault(profile => profile.UserId == userId);
+        }
     }
 }

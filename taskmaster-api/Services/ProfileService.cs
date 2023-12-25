@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.DTOs.Interface;
 using taskmaster_api.Data.Repositories.Interface;
@@ -8,11 +10,13 @@ namespace taskmaster_api.Services
     public class ProfileService : IProfileService
     {
         private readonly IProfileRepository _profileRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ProfileService> _logger;
 
-        public ProfileService(IProfileRepository profileRepository, ILogger<ProfileService> logger)
+        public ProfileService(IProfileRepository profileRepository, IHttpContextAccessor httpContextAccessor, ILogger<ProfileService> logger)
         {
             _profileRepository = profileRepository;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
 
@@ -103,6 +107,26 @@ namespace taskmaster_api.Services
             {
                 _logger.LogInformation(ex.Message);
                 return CoreActionResult.Exception(ex);
+            }
+        }
+
+        public ICoreActionResult<ProfileDto> GetProfileByUserId(string userId)
+        {
+            try
+            {
+                var profile = _profileRepository.GetProfileByUserId(userId);
+                if (profile == null)
+                {
+                    _logger.LogInformation("Profile not found");
+                    return CoreActionResult<ProfileDto>.Failure("Profile not found", "NotFound");
+                }
+
+                return CoreActionResult<ProfileDto>.Success(profile.ToDto());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return CoreActionResult<ProfileDto>.Exception(ex);
             }
         }
     }

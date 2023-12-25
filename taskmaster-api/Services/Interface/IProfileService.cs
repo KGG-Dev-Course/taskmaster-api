@@ -10,5 +10,6 @@ namespace taskmaster_api.Services.Interface
         ICoreActionResult<ProfileDto> CreateProfile(ProfileDto profileDto);
         ICoreActionResult<ProfileDto> UpdateProfile(int id, ProfileDto profileDto);
         ICoreActionResult DeleteProfile(int id);
+        ICoreActionResult<ProfileDto> GetProfileByUserId(string userId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Services.Interface;
 
@@ -45,6 +46,13 @@ namespace taskmaster_api.Controllers
         public IActionResult DeleteProfile(int id)
         {
             return ToHttpResult(_profileService.DeleteProfile(id));
+        }
+
+        [HttpGet("mine")]
+        public IActionResult GetMineProfile()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return ToHttpResult<ProfileDto>(_profileService.GetProfileByUserId(userId));
         }
     }
 }
