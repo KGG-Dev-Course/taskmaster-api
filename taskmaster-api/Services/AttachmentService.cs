@@ -1,8 +1,7 @@
-﻿using taskmaster_api.Data.DTOs.Interface;
-using taskmaster_api.Data.DTOs;
+﻿using taskmaster_api.Data.DTOs;
+using taskmaster_api.Data.DTOs.Interface;
 using taskmaster_api.Data.Repositories.Interface;
 using taskmaster_api.Services.Interface;
-using Microsoft.AspNetCore.Hosting;
 
 namespace taskmaster_api.Services
 {
