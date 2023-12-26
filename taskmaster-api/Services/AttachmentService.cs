@@ -1,8 +1,7 @@
-﻿using taskmaster_api.Data.DTOs.Interface;
-using taskmaster_api.Data.DTOs;
+﻿using taskmaster_api.Data.DTOs;
+using taskmaster_api.Data.DTOs.Interface;
 using taskmaster_api.Data.Repositories.Interface;
 using taskmaster_api.Services.Interface;
-using Microsoft.AspNetCore.Hosting;
 
 namespace taskmaster_api.Services
 {
@@ -11,6 +10,7 @@ namespace taskmaster_api.Services
         private readonly IAttachmentRepository _attachmentRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<AttachmentService> _logger;
+        private readonly string UploadFolderPath = "Uploads/attachment";
 
         public AttachmentService(IAttachmentRepository attachmentRepository, IWebHostEnvironment webHostEnvironment, ILogger<AttachmentService> logger)
         {
@@ -122,7 +122,7 @@ namespace taskmaster_api.Services
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.File.FileName);
 
                 // Combine the unique filename with the storage path
-                var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads", fileName);
+                var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, UploadFolderPath, fileName);
 
                 // Ensure the directory exists
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath));
@@ -138,7 +138,7 @@ namespace taskmaster_api.Services
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return CoreActionResult<AttachmentUploadResult>.Success(new AttachmentUploadResult { Success = false });
+                return CoreActionResult<AttachmentUploadResult>.Exception(ex);
             }
         }
     }

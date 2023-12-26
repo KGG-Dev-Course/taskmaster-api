@@ -8,11 +8,16 @@ namespace taskmaster_api.Services
     public class ProfileService : IProfileService
     {
         private readonly IProfileRepository _profileRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ProfileService> _logger;
+        private readonly string UploadFolderPath = "Uploads/profile";
 
-        public ProfileService(IProfileRepository profileRepository, ILogger<ProfileService> logger)
+        public ProfileService(IProfileRepository profileRepository, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor, ILogger<ProfileService> logger)
         {
             _profileRepository = profileRepository;
+            _webHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
 
@@ -77,6 +82,20 @@ namespace taskmaster_api.Services
                     return CoreActionResult<ProfileDto>.Failure("Profile not found", "NotFound");
                 }
 
+                if (profile.Photo != existingProfile.Photo && existingProfile.Photo != null)
+                {
+                    var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, UploadFolderPath, existingProfile.Photo);
+
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    else
+                    {
+                        _logger.LogInformation("File does not exist.");
+                    }
+                }
+
                 var updatedProfile = _profileRepository.UpdateProfile(id, profile);
                 return CoreActionResult<ProfileDto>.Success(updatedProfile.ToDto());
             }
@@ -103,6 +122,80 @@ namespace taskmaster_api.Services
             {
                 _logger.LogInformation(ex.Message);
                 return CoreActionResult.Exception(ex);
+            }
+        }
+
+        public ICoreActionResult<ProfileDto> GetProfileByUserId(string userId)
+        {
+            try
+            {
+                var profile = _profileRepository.GetProfileByUserId(userId);
+                if (profile == null)
+                {
+                    _logger.LogInformation("Profile not found");
+                    return CoreActionResult<ProfileDto>.Failure("Profile not found", "NotFound");
+                }
+
+                return CoreActionResult<ProfileDto>.Success(profile.ToDto());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return CoreActionResult<ProfileDto>.Exception(ex);
+            }
+        }
+
+        public ICoreActionResult<ProfileUploadResult> UploadPhoto(ProfileUploadRequest request)
+        {
+            if (request == null || request.File == null || request.File.Length <= 0)
+            {
+                return CoreActionResult<ProfileUploadResult>.Failure("Invalid file");
+            }
+
+            try
+            {
+                // Create a unique filename to avoid overwriting existing files
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.File.FileName);
+
+                // Combine the unique filename with the storage path
+                var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, UploadFolderPath, fileName);
+
+                // Ensure the directory exists
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                // Save the file to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    request.File.CopyTo(stream);
+                }
+
+                return CoreActionResult<ProfileUploadResult>.Success(new ProfileUploadResult { Success = true, FilePath = filePath, FileName = fileName });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return CoreActionResult<ProfileUploadResult>.Exception(ex);
+            }
+        }
+
+        public byte[] GetPhoto(string fileName)
+        {
+            try
+            {
+                var imagePath = Path.Combine(UploadFolderPath, fileName);
+
+                if (File.Exists(imagePath))
+                {
+                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                    return imageBytes;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return null;
             }
         }
     }
