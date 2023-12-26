@@ -1,9 +1,3 @@
-using Azure.Core;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.DTOs.Interface;
 using taskmaster_api.Data.Repositories.Interface;
