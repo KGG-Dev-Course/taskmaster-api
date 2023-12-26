@@ -1,6 +1,8 @@
 using Azure.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.DTOs.Interface;
@@ -86,6 +88,20 @@ namespace taskmaster_api.Services
                     return CoreActionResult<ProfileDto>.Failure("Profile not found", "NotFound");
                 }
 
+                if (profile.Photo != existingProfile.Photo && existingProfile.Photo != null)
+                {
+                    var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, UploadFolderPath, existingProfile.Photo);
+
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    else
+                    {
+                        _logger.LogInformation("File does not exist.");
+                    }
+                }
+
                 var updatedProfile = _profileRepository.UpdateProfile(id, profile);
                 return CoreActionResult<ProfileDto>.Success(updatedProfile.ToDto());
             }
@@ -165,6 +181,27 @@ namespace taskmaster_api.Services
             {
                 _logger.LogInformation(ex.Message);
                 return CoreActionResult<ProfileUploadResult>.Exception(ex);
+            }
+        }
+
+        public byte[] GetPhoto(string fileName)
+        {
+            try
+            {
+                var imagePath = Path.Combine(UploadFolderPath, fileName);
+
+                if (File.Exists(imagePath))
+                {
+                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                    return imageBytes;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return null;
             }
         }
     }

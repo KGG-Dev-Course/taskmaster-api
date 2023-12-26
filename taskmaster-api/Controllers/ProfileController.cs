@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
+using taskmaster_api.Services;
 using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Controllers
@@ -59,6 +61,20 @@ namespace taskmaster_api.Controllers
         public IActionResult UploadPhoto([FromForm] ProfileUploadRequest request)
         {
             return ToHttpResult<ProfileUploadResult>(_profileService.UploadPhoto(request));
+        }
+
+        [HttpGet("getPhoto/{fileName}")]
+        [AllowAnonymous]
+        public IActionResult GetPhoto(string fileName)
+        {
+            var imageBytes = _profileService.GetPhoto(fileName);
+
+            if (imageBytes != null)
+            {
+                return File(imageBytes, "image/jpeg");
+            }
+
+            return NotFound("Image not found");
         }
     }
 }

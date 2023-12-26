@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using taskmaster_api.Data.DTOs;
 using taskmaster_api.Data.DTOs.Interface;
 
@@ -12,5 +13,6 @@ namespace taskmaster_api.Services.Interface
         ICoreActionResult DeleteProfile(int id);
         ICoreActionResult<ProfileDto> GetProfileByUserId(string userId);
         ICoreActionResult<ProfileUploadResult> UploadPhoto(ProfileUploadRequest request);
+        byte[] GetPhoto(string fileName);
     }
 }
