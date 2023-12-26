@@ -1,9 +1,7 @@
-﻿using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
-using taskmaster_api.Services;
 using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Controllers
