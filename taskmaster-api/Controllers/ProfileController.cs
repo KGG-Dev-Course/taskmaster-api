@@ -54,5 +54,11 @@ namespace taskmaster_api.Controllers
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             return ToHttpResult<ProfileDto>(_profileService.GetProfileByUserId(userId));
         }
+
+        [HttpPost("uploadPhoto")]
+        public IActionResult UploadPhoto([FromForm] ProfileUploadRequest request)
+        {
+            return ToHttpResult<ProfileUploadResult>(_profileService.UploadPhoto(request));
+        }
     }
 }

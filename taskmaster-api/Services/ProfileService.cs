@@ -1,3 +1,5 @@
+using Azure.Core;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using taskmaster_api.Data.DTOs;
@@ -10,12 +12,15 @@ namespace taskmaster_api.Services
     public class ProfileService : IProfileService
     {
         private readonly IProfileRepository _profileRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ProfileService> _logger;
+        private readonly string UploadFolderPath = "Uploads/profile";
 
-        public ProfileService(IProfileRepository profileRepository, IHttpContextAccessor httpContextAccessor, ILogger<ProfileService> logger)
+        public ProfileService(IProfileRepository profileRepository, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor, ILogger<ProfileService> logger)
         {
             _profileRepository = profileRepository;
+            _webHostEnvironment = webHostEnvironment;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
@@ -127,6 +132,39 @@ namespace taskmaster_api.Services
             {
                 _logger.LogInformation(ex.Message);
                 return CoreActionResult<ProfileDto>.Exception(ex);
+            }
+        }
+
+        public ICoreActionResult<ProfileUploadResult> UploadPhoto(ProfileUploadRequest request)
+        {
+            if (request == null || request.File == null || request.File.Length <= 0)
+            {
+                return CoreActionResult<ProfileUploadResult>.Failure("Invalid file");
+            }
+
+            try
+            {
+                // Create a unique filename to avoid overwriting existing files
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.File.FileName);
+
+                // Combine the unique filename with the storage path
+                var filePath = Path.Combine(_webHostEnvironment.ContentRootPath, UploadFolderPath, fileName);
+
+                // Ensure the directory exists
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                // Save the file to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    request.File.CopyTo(stream);
+                }
+
+                return CoreActionResult<ProfileUploadResult>.Success(new ProfileUploadResult { Success = true, FilePath = filePath, FileName = fileName });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return CoreActionResult<ProfileUploadResult>.Exception(ex);
             }
         }
     }

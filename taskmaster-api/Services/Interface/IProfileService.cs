@@ -11,5 +11,6 @@ namespace taskmaster_api.Services.Interface
         ICoreActionResult<ProfileDto> UpdateProfile(int id, ProfileDto profileDto);
         ICoreActionResult DeleteProfile(int id);
         ICoreActionResult<ProfileDto> GetProfileByUserId(string userId);
+        ICoreActionResult<ProfileUploadResult> UploadPhoto(ProfileUploadRequest request);
     }
 }
