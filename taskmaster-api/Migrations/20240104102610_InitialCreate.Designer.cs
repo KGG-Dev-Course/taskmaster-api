@@ -12,7 +12,7 @@ using taskmaster_api.Data.Contexts;
 namespace taskmaster_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231222113127_InitialCreate")]
+    [Migration("20240104102610_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -359,6 +359,10 @@ namespace taskmaster_api.Migrations
                     b.Property<string>("AboutMe")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AccessToken")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("Birthday")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -375,6 +379,9 @@ namespace taskmaster_api.Migrations
                         .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
 
+                    b.Property<bool>("IsGoogleAuthenticated")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -385,6 +392,10 @@ namespace taskmaster_api.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Photo")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("RefreshToken")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 

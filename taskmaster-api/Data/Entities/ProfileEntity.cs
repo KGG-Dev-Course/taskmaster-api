@@ -40,6 +40,15 @@ namespace taskmaster_api.Data.Entities
         public string? Photo { get; set; }
 
         [Required]
+        public bool IsGoogleAuthenticated { get; set; }
+
+        [StringLength(255)]
+        public string? AccessToken { get; set; }
+
+        [StringLength(255)]
+        public string? RefreshToken { get; set; }
+
+        [Required]
         public DateTime CreatedAt { get; set; }
 
         [Required]
