@@ -145,11 +145,11 @@ namespace taskmaster_api.Services
             }
         }
 
-        public ICoreActionResult<ProfileUploadResult> UploadPhoto(ProfileUploadRequest request)
+        public ICoreActionResult<ProfileUploadResponse> UploadPhoto(ProfileUploadRequest request)
         {
             if (request == null || request.File == null || request.File.Length <= 0)
             {
-                return CoreActionResult<ProfileUploadResult>.Failure("Invalid file");
+                return CoreActionResult<ProfileUploadResponse>.Failure("Invalid file");
             }
 
             try
@@ -169,12 +169,12 @@ namespace taskmaster_api.Services
                     request.File.CopyTo(stream);
                 }
 
-                return CoreActionResult<ProfileUploadResult>.Success(new ProfileUploadResult { Success = true, FilePath = filePath, FileName = fileName });
+                return CoreActionResult<ProfileUploadResponse>.Success(new ProfileUploadResponse { Success = true, FilePath = filePath, FileName = fileName });
             }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return CoreActionResult<ProfileUploadResult>.Exception(ex);
+                return CoreActionResult<ProfileUploadResponse>.Exception(ex);
             }
         }
 

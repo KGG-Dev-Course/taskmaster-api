@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using taskmaster_api.Data.DTOs;
 using taskmaster_api.Services.Interface;
 
 namespace taskmaster_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GooglePhotosController : ControllerBase
+    public class GooglePhotosController : ApplicationControllerBase
     {
         private readonly IGooglePhotosService _googlePhotosService;
 
@@ -14,18 +15,16 @@ namespace taskmaster_api.Controllers
             _googlePhotosService = googlePhotosService;
         }
 
-        [HttpGet("fetch-photos")]
-        public async Task<IActionResult> FetchPhotos(string accessToken)
+        [HttpGet("getPhotos")]
+        public IActionResult GetPhotos(string accessToken)
         {
-            try
-            {
-                var photos = await _googlePhotosService.FetchPhotos(accessToken);
-                return Ok(photos);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Failed to fetch photos: {ex.Message}");
-            }
+            return ToHttpResult<List<MediaItemDto>>(_googlePhotosService.GetPhotos(accessToken));
+        }
+
+        [HttpPost("uploadPhoto")]
+        public IActionResult UploadPhoto([FromForm(Name = "accessToken")] string accessToken, [FromForm] GooglePhotoUploadRequest request)
+        {
+            return ToHttpResult<GooglePhotoUploadResponse>(_googlePhotosService.UploadPhotos(accessToken, request));
         }
     }
 }
