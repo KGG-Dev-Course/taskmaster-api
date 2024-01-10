@@ -58,7 +58,7 @@ namespace taskmaster_api.Controllers
         [HttpPost("uploadPhoto")]
         public IActionResult UploadPhoto([FromForm] ProfileUploadRequest request)
         {
-            return ToHttpResult<ProfileUploadResult>(_profileService.UploadPhoto(request));
+            return ToHttpResult<ProfileUploadResponse>(_profileService.UploadPhoto(request));
         }
 
         [HttpGet("getPhoto/{fileName}")]
