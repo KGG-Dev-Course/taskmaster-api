@@ -13,13 +13,13 @@ namespace taskmaster_api.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        [ForeignKey("UserId")]
+        public virtual IdentityUser User { get; set; }
+        public string? UserId { get; set; }
 
-        [Required]
-        public int TicketId { get; set; }
-        public TicketEntity Ticket { get; set; }
+        [ForeignKey("TicketId")]
+        public virtual TicketEntity Ticket { get; set; }
+        public int? TicketId { get; set; }
 
         [Required]
         public string Content { get; set; }

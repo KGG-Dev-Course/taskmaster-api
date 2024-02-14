@@ -7,7 +7,7 @@ using taskmaster_api.Data.Entities.Interface;
 
 namespace taskmaster_api.Data.Entities
 {
-    public class ActivityLogEntity : IEntity<ActivityLogDto>
+    public class CourseEnrollmentEntity : IEntity<CourseEnrollmentDto>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,16 +17,16 @@ namespace taskmaster_api.Data.Entities
         public virtual IdentityUser User { get; set; }
         public string? UserId { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Action { get; set; }
+        [ForeignKey("CourseId")]
+        public virtual CourseEntity Course { get; set; }
+        public int? CourseId { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime EnrollmentDate { get; set; }
 
-        public ActivityLogDto ToDto()
+        public CourseEnrollmentDto ToDto()
         {
-            return EntityHelpers.ToDto<ActivityLogEntity, ActivityLogDto>(this);
+            return EntityHelpers.ToDto<CourseEnrollmentEntity, CourseEnrollmentDto>(this);
         }
     }
 }
