@@ -19,5 +19,7 @@ namespace taskmaster_api.Data.Contexts
         public virtual DbSet<ActivityLogEntity> ActivityLogs { get; set; }
         public virtual DbSet<NotificationEntity> Notifications { get; set; }
         public virtual DbSet<SettingEntity> Settings { get; set; }
+        public virtual DbSet<CourseEntity> Courses { get; set; }
+        public virtual DbSet<CourseEnrollmentEntity> CourseEnrollments { get; set; }
     }
 }

@@ -259,9 +259,6 @@ namespace taskmaster_api.Migrations
                     Birthday = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Photo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    IsGoogleAuthenticated = table.Column<bool>(type: "bit", nullable: false),
-                    AccessToken = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    RefreshToken = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
